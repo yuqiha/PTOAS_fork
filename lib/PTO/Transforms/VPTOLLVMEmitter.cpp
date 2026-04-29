@@ -4224,7 +4224,7 @@ private:
 class LowerVbrOpPattern final : public OpConversionPattern<pto::VbrOp> {
 public:
   explicit LowerVbrOpPattern(TypeConverter &typeConverter, MLIRContext *context,
-                             LoweringState &state)
+                              LoweringState &state)
       : OpConversionPattern<pto::VbrOp>(typeConverter, context), state(state) {}
 
   LogicalResult
@@ -4245,7 +4245,7 @@ public:
         this->getTypeConverter()->convertType(op.getValue().getType());
     if (!scalar || !expectedScalarType || scalar.getType() != expectedScalarType)
       return rewriter.notifyMatchFailure(op,
-                                         "unexpected converted vbr operand type");
+                                          "unexpected converted vbr operand type");
 
     scalar = normalizeByteScalarOperandForHivmCall(
         rewriter, op.getLoc(), scalar,
