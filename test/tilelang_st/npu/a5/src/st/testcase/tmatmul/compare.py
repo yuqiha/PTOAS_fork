@@ -1,7 +1,7 @@
 # Copyright (c) 2026 Huawei Technologies Co., Ltd.
 # This program is free software, you can redistribute it and/or modify it under the terms and conditions of
 # CANN Open Software License Agreement Version 2.0 (the "License").
-# Please refer to the License for details. You may not use this file except in compliance with the License.
+# Please refer to the License for details. You can not use this file except in compliance with the License.
 # THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED,
 # INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
 # See LICENSE in the root of the software repository for the full text of the License.
@@ -25,11 +25,14 @@ def main():
             continue
 
         case_dir = case["name"]
-        shape_c = case["shape_c"]
-        golden = np.fromfile(os.path.join(case_dir, "golden.bin"), dtype=np.float32).reshape(shape_c)
-        output = np.fromfile(os.path.join(case_dir, "output.bin"), dtype=np.float32).reshape(shape_c)
+        M, N = case["M"], case["N"]
+        dtype_c = case["dtype_c"]
+        eps = case["eps"]
 
-        ok = result_cmp(golden, output, case["eps"])
+        golden = np.fromfile(os.path.join(case_dir, "golden.bin"), dtype=dtype_c).reshape((M, N))
+        output = np.fromfile(os.path.join(case_dir, "output.bin"), dtype=dtype_c).reshape((M, N))
+
+        ok = result_cmp(golden, output, eps)
         if ok:
             print(style_pass(f"[INFO] {case['name']}: compare passed"))
         else:

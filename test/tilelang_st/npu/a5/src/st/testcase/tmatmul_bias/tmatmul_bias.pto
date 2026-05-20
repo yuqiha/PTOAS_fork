@@ -1,0 +1,39 @@
+// Copyright (c) 2026 Huawei Technologies Co., Ltd.
+// This program is free software; you can redistribute it and/or modify it under the terms and conditions of
+// CANN Open Software License Agreement Version 2.0 (the "License").
+// Please refer to the License for details. You may not use this file except in compliance with the License.
+// THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
+// See LICENSE in the root of the software repository for the full text of the License.
+
+// TileLang ST kernel for cube matmul with bias - stub implementations (no splitk).
+
+module attributes {pto.target_arch = "a5", pto.kernel_kind = #pto.kernel_kind<cube>} {
+
+  // case_bias_1: i8, 8x7x6 stub
+  func.func @TMATMUL_BIAS_case_bias_1_i8_8x7x6(%a_gm: !pto.ptr<i8, gm>, %b_gm: !pto.ptr<i8, gm>, %bias_gm: !pto.ptr<i32, gm>, %c_gm: !pto.ptr<i32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_2: f16, 16x15x16 stub
+  func.func @TMATMUL_BIAS_case_bias_2_f16_16x15x16(%a_gm: !pto.ptr<f16, gm>, %b_gm: !pto.ptr<f16, gm>, %bias_gm: !pto.ptr<f16, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_3: f16/bf16, 112x127x80 stub
+  func.func @TMATMUL_BIAS_case_bias_3_f16bf16_112x127x80(%a_gm: !pto.ptr<f16, gm>, %b_gm: !pto.ptr<f16, gm>, %bias_gm: !pto.ptr<bf16, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_4: bf16, 80x112x63 stub
+  func.func @TMATMUL_BIAS_case_bias_4_bf16_80x112x63(%a_gm: !pto.ptr<bf16, gm>, %b_gm: !pto.ptr<bf16, gm>, %bias_gm: !pto.ptr<bf16, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_6: fp8e4m3, 120x90x160 stub
+  func.func @TMATMUL_BIAS_case_bias_6_fp8e4m3_120x90x160(%a_gm: !pto.ptr<i8, gm>, %b_gm: !pto.ptr<i8, gm>, %bias_gm: !pto.ptr<f32, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_7: fp8e4m3/e5m2, 32x64x96 stub
+  func.func @TMATMUL_BIAS_case_bias_7_fp8e4m3e5m2_32x64x96(%a_gm: !pto.ptr<i8, gm>, %b_gm: !pto.ptr<i8, gm>, %bias_gm: !pto.ptr<f32, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_8: fp8e5m2/e4m3, 128x96x64 stub
+  func.func @TMATMUL_BIAS_case_bias_8_fp8e5m2e4m3_128x96x64(%a_gm: !pto.ptr<i8, gm>, %b_gm: !pto.ptr<i8, gm>, %bias_gm: !pto.ptr<f32, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_9: fp8e5m2, 30x90x60 stub
+  func.func @TMATMUL_BIAS_case_bias_9_fp8e5m2_30x90x60(%a_gm: !pto.ptr<i8, gm>, %b_gm: !pto.ptr<i8, gm>, %bias_gm: !pto.ptr<f32, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+
+  // case_bias_10: hf8, 145x115x85 stub
+  func.func @TMATMUL_BIAS_case_bias_10_hf8_145x115x85(%a_gm: !pto.ptr<i8, gm>, %b_gm: !pto.ptr<i8, gm>, %bias_gm: !pto.ptr<f32, gm>, %c_gm: !pto.ptr<f32, gm>) attributes {pto.aicore} { return }
+}

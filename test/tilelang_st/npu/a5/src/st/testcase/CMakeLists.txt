@@ -194,6 +194,9 @@ set(ALL_TESTCASES
     tfmods
     tcmps
     tmatmul
+    tmatmul_acc
+    tmatmul_bias
+    tmatmul_mx
 )
 
 if((TEST_CASE IN_LIST ALL_TESTCASES) OR (TEST_CASE STREQUAL "all"))
