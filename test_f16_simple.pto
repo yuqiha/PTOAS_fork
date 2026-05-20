@@ -1,0 +1,7 @@
+module attributes {pto.target_arch = "a5", pto.kernel_kind = #pto.kernel_kind<cube>} {
+  func.func @test_f16(%lhs: !pto.ptr<f16, l0a>, %rhs: !pto.ptr<f16, l0b>, %dst: !pto.ptr<f32, l0c>) attributes {pto.aicore} {
+    %c16 = arith.constant 16 : i64
+    pto.mad_raw %lhs, %rhs, %dst, %c16 : !pto.ptr<f16, l0a>, !pto.ptr<f16, l0b>, !pto.ptr<f32, l0c>, i64
+    return
+  }
+}

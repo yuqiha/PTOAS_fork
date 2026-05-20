@@ -6,7 +6,7 @@
 # INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE.
 # See LICENSE in the root of the software repository for the full text of the License.
 
-"""TileLang DSL template for pto.tmatmul."""
+"""TileLang DSL templates for pto.tmatmul, pto.tmatmul.acc, and pto.tmatmul.bias."""
 
 import tilelang_dsl as pto
 
@@ -18,10 +18,43 @@ import tilelang_dsl as pto
         (pto.f16, pto.f16, pto.f32),
         (pto.bf16, pto.bf16, pto.f32),
         (pto.f32, pto.f32, pto.f32),
+        (pto.i8, pto.i8, pto.i32),
     ],
 )
 def template_tmatmul(lhs: pto.Tile, rhs: pto.Tile, acc: pto.Tile):
     m, k = lhs.valid_shape
     n, _ = rhs.valid_shape
     pto.mad(lhs.as_ptr(), rhs.as_ptr(), acc.as_ptr(), m, n, k, disable_gemv=True)
+    return None
+
+
+@pto.ckernel(
+    target="a5",
+    op="pto.tmatmul.acc",
+    dtypes=[
+        (pto.f32, pto.f16, pto.f16, pto.f32),
+        (pto.f32, pto.bf16, pto.bf16, pto.f32),
+        (pto.f32, pto.f32, pto.f32, pto.f32),
+    ],
+)
+def template_tmatmul_acc(acc_in: pto.Tile, lhs: pto.Tile, rhs: pto.Tile, dst: pto.Tile):
+    m, k = lhs.valid_shape
+    n, _ = rhs.valid_shape
+    pto.mad_acc(lhs.as_ptr(), rhs.as_ptr(), dst.as_ptr(), m, n, k, disable_gemv=True)
+    return None
+
+
+@pto.ckernel(
+    target="a5",
+    op="pto.tmatmul.bias",
+    dtypes=[
+        (pto.f16, pto.f16, pto.f32, pto.f32),
+        (pto.bf16, pto.bf16, pto.f32, pto.f32),
+        (pto.f32, pto.f32, pto.f32, pto.f32),
+    ],
+)
+def template_tmatmul_bias(lhs: pto.Tile, rhs: pto.Tile, bias: pto.Tile, dst: pto.Tile):
+    m, k = lhs.valid_shape
+    n, _ = rhs.valid_shape
+    pto.mad_bias(lhs.as_ptr(), rhs.as_ptr(), dst.as_ptr(), bias.as_ptr(), m, n, k, disable_gemv=True)
     return None

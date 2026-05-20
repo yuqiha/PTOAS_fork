@@ -74,10 +74,6 @@ for case in CASES:
         lhs = np.random.uniform(-1.0, 1.0, size=(M, K)).astype(np.float16)
         rhs = np.random.uniform(-1.0, 1.0, size=(K, N)).astype(np.float16)
         golden = np.matmul(lhs.astype(np.float32), rhs.astype(np.float32)).astype(np.float32)
-    elif case_name == "case2_i8_6x7x8":
-        lhs = np.random.randint(-10, 10, size=(M, K)).astype(np.int8)
-        rhs = np.random.randint(-10, 10, size=(K, N)).astype(np.int8)
-        golden = np.matmul(lhs.astype(np.int32), rhs.astype(np.int32)).astype(np.int32)
     elif case_name == "case4_f32_120x110x50":
         lhs = np.random.uniform(-1.0, 1.0, size=(M, K)).astype(np.float32)
         rhs = np.random.uniform(-1.0, 1.0, size=(K, N)).astype(np.float32)

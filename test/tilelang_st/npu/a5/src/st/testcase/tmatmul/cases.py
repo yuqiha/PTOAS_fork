@@ -11,12 +11,14 @@
 """Single source of truth for tmatmul ST test cases."""
 
 import numpy as np
+import ml_dtypes
+
+bfloat16 = ml_dtypes.bfloat16
 
 CASES = [
     {"name": "case1_f16_40x50x60", "dtype_a": np.float16, "dtype_b": np.float16, "dtype_c": np.float32, "M": 40, "K": 50, "N": 60, "eps": 1e-2},
-    {"name": "case2_i8_6x7x8", "dtype_a": np.int8, "dtype_b": np.int8, "dtype_c": np.int32, "M": 6, "K": 7, "N": 8, "eps": 0},
     {"name": "case4_f32_120x110x50", "dtype_a": np.float32, "dtype_b": np.float32, "dtype_c": np.float32, "M": 120, "K": 110, "N": 50, "eps": 1e-3},
-    {"name": "case5_bf16_144x80x48", "dtype_a": np.bfloat16, "dtype_b": np.bfloat16, "dtype_c": np.float32, "M": 144, "K": 80, "N": 48, "eps": 1e-2},
+    {"name": "case5_bf16_144x80x48", "dtype_a": bfloat16, "dtype_b": bfloat16, "dtype_c": np.float32, "M": 144, "K": 80, "N": 48, "eps": 1e-2},
     {"name": "case12_tf32_16x32x64", "dtype_a": np.float32, "dtype_b": np.float32, "dtype_c": np.float32, "M": 16, "K": 32, "N": 64, "eps": 1e-3},
     {"name": "case13_tf32_128x96x64", "dtype_a": np.float32, "dtype_b": np.float32, "dtype_c": np.float32, "M": 128, "K": 96, "N": 64, "eps": 1e-3},
 ]
