@@ -289,6 +289,8 @@ static Value getI32Constant(OpBuilder &builder, Location loc, uint64_t value) {
 static bool isMxElementType(Type ty) {
   if (auto floatType = dyn_cast<FloatType>(ty))
     return floatType.getWidth() == 8;
+  if (isa<pto::F4E1M2x2Type, pto::F4E2M1x2Type>(ty))
+    return true;
   std::string typeText;
   llvm::raw_string_ostream os(typeText);
   ty.print(os);
@@ -643,7 +645,9 @@ static std::string getL0LoadElementFragment(Type type) {
   if (StringRef(lower).contains("e4m3") ||
       StringRef(lower).contains("e5m2") ||
       StringRef(lower).contains("e8m0") ||
-      StringRef(lower).contains("hif8"))
+      StringRef(lower).contains("hif8") ||
+      StringRef(lower).contains("e1m2x2") ||
+      StringRef(lower).contains("e2m1x2"))
     return "s8";
   return {};
 }
@@ -830,6 +834,8 @@ static std::string getCopyElementFragment(Type elementType) {
     return "e8m0";
   if (StringRef(lower).contains("hif8"))
     return "hif8";
+  if (StringRef(lower).contains("e1m2x2") || StringRef(lower).contains("e2m1x2"))
+    return "u8";
   if (auto intType = dyn_cast<IntegerType>(elementType)) {
     switch (intType.getWidth()) {
     case 8:

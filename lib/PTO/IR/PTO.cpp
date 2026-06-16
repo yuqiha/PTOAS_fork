@@ -4429,8 +4429,8 @@ static LogicalResult verifyAccTileCommon(Operation *op, Type ty, StringRef name)
 
 static LogicalResult verifyMatTileOperandsA2A3(Operation *op, Type lhsTy,
                                                Type rhsTy, Type dstTy) {
-  if (failed(verifyTileBufCommon(op, lhsTy, "lhs")) ||
-      failed(verifyTileBufCommon(op, rhsTy, "rhs")) ||
+  if (failed(verifyTileBufCommon(op, lhsTy, "lhs", /*allowLowPrecision=*/true)) ||
+      failed(verifyTileBufCommon(op, rhsTy, "rhs", /*allowLowPrecision=*/true)) ||
       failed(verifyAccTileCommon(op, dstTy, "dst")))
     return failure();
   auto lhsSpace = getPTOMemorySpaceEnum(lhsTy);
@@ -4691,12 +4691,22 @@ static LogicalResult verifyMatmulTypeTriple(Operation *op, Type lhsElemTy,
       if (width == 8 || width == 16 || width == 32)
         return success();
     }
+    if (isa<HiF8Type>(lhsElemTy))
+      return success();
+  }
+
+  // A5: allow mixed fp8 pairs (e.g., f8e4m3 x f8e5m2 -> f32)
+  if (isA5 && dstElemTy.isF32()) {
+    auto lt = mlir::dyn_cast<FloatType>(lhsElemTy);
+    auto rt = mlir::dyn_cast<FloatType>(rhsElemTy);
+    if (lt && rt && lt.getWidth() == 8 && rt.getWidth() == 8)
+      return success();
   }
 
   return op->emitOpError()
          << "expects (dst, lhs, rhs) element types to match one of "
             "(i32, i8, i8), (f32, f16, f16), (f32, bf16, bf16), (f32, f32, f32)"
-            << (isA5 ? ", or an A5-supported fp8 pair" : "");
+            << (isA5 ? ", or an A5-supported fp8/hif8 pair" : "");
 }
 
 LogicalResult pto::TAddOp::verify() {
